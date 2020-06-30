@@ -14,7 +14,7 @@ export const Container = styled.div`
 
     input {
       text-align: center;
-      border-radius: 5px, 10px;
+      margin-right: 5px;
     }
   }
 `
@@ -25,6 +25,10 @@ export const WelcomeContainer = styled.div`
   align-items: center;
 
   margin-bottom: 60px;
+
+  h1 {
+    font-weight: 300;
+  }
 
   p {
     color: #555;

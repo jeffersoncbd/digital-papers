@@ -1,5 +1,6 @@
 import { useEffect, useState, FormEvent } from 'react'
 import Head from 'next/head'
+import { toast } from 'react-toastify'
 
 import api from '../services/api'
 
@@ -23,7 +24,7 @@ export default function Home() {
       const response = await api.post('/login', { password }, {})
       console.log(response.data)
     } catch (error) {
-      console.log(error.response.data)
+      toast.error(error.response.data.feedback)
     }
   }
 
@@ -43,14 +44,15 @@ export default function Home() {
       <WelcomeContainer>
         <h1>Bem vindo ao Digital Papers</h1>
         <p>
-          Aplicar o método <a href="https://gettingthingsdone.com/">GTD</a> na
-          sua vida nunca foi tão fácil!
+          Aplicar o método <a href="https://gettingthingsdone.com/">GTD</a>{' '}
+          nunca foi tão fácil!
         </p>
       </WelcomeContainer>
 
       {configured.done ? (
         <form onSubmit={handleSubmit}>
           <Input
+            type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
