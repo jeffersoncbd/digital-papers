@@ -6,6 +6,17 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  form {
+    display: flex;
+    align-items: center;
+    width: 500px;
+
+    input {
+      text-align: center;
+      border-radius: 5px, 10px;
+    }
+  }
 `
 
 export const WelcomeContainer = styled.div`

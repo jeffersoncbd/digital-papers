@@ -5,6 +5,9 @@ import api from '../services/api'
 
 import { Container, WelcomeContainer } from '../styles/pages/home'
 
+import Input from '../components/Input'
+import Button from '../components/Button'
+
 interface Configured {
   done: boolean
   hash?: string
@@ -47,11 +50,11 @@ export default function Home() {
 
       {configured.done ? (
         <form onSubmit={handleSubmit}>
-          <input
+          <Input
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-          <button type="submit">Entrar</button>
+          <Button type="submit">Entrar</Button>
         </form>
       ) : (
         <>
