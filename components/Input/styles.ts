@@ -7,4 +7,9 @@ export const Input = styled.input`
   height: 47px;
   border-radius: 4px;
   padding: 0 15px;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #000;
+  }
 `
