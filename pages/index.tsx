@@ -1,6 +1,8 @@
 import { useEffect, useState, FormEvent } from 'react'
-import Head from 'next/head'
 import { toast } from 'react-toastify'
+import Head from 'next/head'
+import Router from 'next/router'
+import { GetStaticProps } from 'next'
 
 import api from '../services/api'
 
@@ -14,6 +16,10 @@ interface Configured {
   hash?: string
 }
 
+export const getStaticProps: GetStaticProps = () => {
+  return { props: { public: true } }
+}
+
 export default function Home() {
   const [configured, setConfiguration] = useState<Configured>({ done: true })
   const [password, setPassword] = useState('')
@@ -22,7 +28,11 @@ export default function Home() {
     event.preventDefault()
     try {
       const response = await api.post('/login', { password }, {})
-      console.log(response.data)
+      const { feedback, token } = response.data
+      toast.success(feedback)
+      localStorage.setItem('token', token)
+      api.defaults.headers.Authorization = `Bearer ${token}`
+      Router.push('/inbox')
     } catch (error) {
       toast.error(error.response.data.feedback)
     }
