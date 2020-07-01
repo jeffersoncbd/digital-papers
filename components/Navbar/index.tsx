@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import {
-  MdMoveToInbox,
-  MdFastForward,
-  MdEvent,
-  MdList,
-  MdAccessTime
-} from 'react-icons/md'
+
+import Inbox from '../../assets/inbox.svg'
+import Next from '../../assets/next.svg'
+import Calendar from '../../assets/calendar.svg'
+import Folder from '../../assets/projects.svg'
+import Waiting from '../../assets/waiting.svg'
+import Someday from '../../assets/someday.svg'
 
 import { Container, Content } from './styles'
 
@@ -15,20 +15,35 @@ const NavBar: React.FunctionComponent = () => {
       <Content>
         <h1>Digital Papers</h1>
         <div>
-          <Link href="/inbox">
-            <MdMoveToInbox fill="white" size={30} />
+          <Link href="/inbox" passHref>
+            <a>
+              <Inbox height={40} width={40} />
+            </a>
           </Link>
-          <Link href="/next">
-            <MdFastForward fill="white" size={30} />
+          <Link href="/next" passHref>
+            <a>
+              <Next height={40} width={40} />
+            </a>
           </Link>
-          <Link href="/calendar">
-            <MdEvent fill="white" size={30} />
+          <Link href="/calendar" passHref>
+            <a>
+              <Calendar height={40} width={40} />
+            </a>
           </Link>
-          <Link href="/projects">
-            <MdList fill="white" size={30} />
+          <Link href="/projects" passHref>
+            <a>
+              <Folder height={40} width={40} />
+            </a>
           </Link>
-          <Link href="/waiting">
-            <MdAccessTime fill="white" size={30} />
+          <Link href="/waiting" passHref>
+            <a>
+              <Waiting height={40} width={40} />
+            </a>
+          </Link>
+          <Link href="/someday" passHref>
+            <a>
+              <Someday height={40} width={40} />
+            </a>
           </Link>
         </div>
       </Content>
