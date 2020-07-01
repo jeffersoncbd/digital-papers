@@ -4,7 +4,7 @@ import Router from 'next/router'
 import List from '../../components/List'
 import Input from '../../components/Input'
 
-import { Container } from './styles'
+import { Container } from '../../styles/pages/inbox'
 
 const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
