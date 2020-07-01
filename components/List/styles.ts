@@ -2,15 +2,15 @@ import styled from 'styled-components'
 
 export const Container = styled.ul`
   border: 1px solid #eee;
-  margin-top: 10px;
+  margin-top: 8px;
   border-radius: 4px;
   li {
     display: flex;
     justify-content: space-between;
     cursor: pointer;
-    padding: 0 15px 15px;
+    padding: 0 15px 16px;
     &:first-child {
-      padding-top: 15px;
+      padding-top: 16px;
     }
     strong {
       flex: 1;
@@ -20,7 +20,7 @@ export const Container = styled.ul`
       text-overflow: ellipsis;
     }
     span {
-      margin-left: 20px;
+      margin-left: 24px;
     }
     &:hover {
       background: #eee;
@@ -28,6 +28,6 @@ export const Container = styled.ul`
   }
   li + li {
     border-top: 1px solid #eee;
-    padding-top: 15px;
+    padding-top: 16px;
   }
 `

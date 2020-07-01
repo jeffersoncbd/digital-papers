@@ -22,8 +22,8 @@ export const Content = styled.div`
     justify-content: space-between;
     align-items: center;
     svg {
-      margin: 0 10px;
-      border-radius: 10%;
+      margin: 0 8px;
+      border-radius: 8%;
       cursor: pointer;
       &:hover {
         background: #444;
