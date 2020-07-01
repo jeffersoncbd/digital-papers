@@ -1,21 +1,47 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Router from 'next/router'
+import { toast } from 'react-toastify'
+
+import api from '../../services/api'
 
 import List from '../../components/List'
 import Input from '../../components/Input'
 
 import { Container } from '../../styles/pages/inbox'
 
+interface Item {
+  id: number
+  title: string
+  dueDate?: string
+  supportingText: string
+}
+
 const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<Item[]>([])
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
-      setNewItem('')
+      try {
+        await api.post('/items', { title: newItem })
+        setItems([
+          ...items,
+          { id: Number(new Date()), title: newItem, supportingText: '' }
+        ])
+        setNewItem('')
+      } catch (error) {
+        console.log(error)
+        toast.error('Erro ao tentar adicionar item')
+      }
     }
   }
+
+  useEffect(() => {
+    api.get('/items').then((response) => {
+      setItems(response.data)
+    })
+  }, [])
 
   return (
     <Container>
