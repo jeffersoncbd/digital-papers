@@ -16,7 +16,7 @@ interface Configured {
   hash?: string
 }
 
-export const getStaticProps: GetStaticProps = () => {
+export const getStaticProps: GetStaticProps = async () => {
   return { props: { public: true } }
 }
 
