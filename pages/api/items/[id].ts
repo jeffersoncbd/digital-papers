@@ -17,6 +17,12 @@ export default requestHandlerFactory({
       query: { id }
     } = request
 
+    if (!id) {
+      response.statusCode = 400
+      response.send('')
+      return
+    }
+
     const item = await prisma.item.findOne({ where: { id: Number(id) } })
 
     response.json(item)
