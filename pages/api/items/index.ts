@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Item } from '@prisma/client'
 import { PageConfig } from 'next'
 
 import requestHandlerFactory from '../../../utils/requestHandlerFactory'
@@ -8,6 +8,8 @@ export const config: PageConfig = {
     externalResolver: true
   }
 }
+
+export type { Item }
 
 export default requestHandlerFactory({
   GET: async (request, response) => {
