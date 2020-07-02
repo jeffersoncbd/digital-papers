@@ -23,10 +23,14 @@ const Inbox: React.FC = () => {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
       try {
-        await api.post('/items', { title: newItem })
+        const response = await api.post('/items', { title: newItem })
         setItems([
           ...items,
-          { id: Number(new Date()), title: newItem, supportingText: '' }
+          {
+            id: Number(response.data.itemId),
+            title: newItem,
+            supportingText: ''
+          }
         ])
         setNewItem('')
       } catch (error) {

@@ -23,8 +23,10 @@ export default requestHandlerFactory({
   POST: async (request, response) => {
     const prisma = new PrismaClient()
 
-    await prisma.item.create({ data: { title: request.body.title as string } })
+    const item = await prisma.item.create({
+      data: { title: request.body.title as string }
+    })
 
-    response.send('')
+    response.json({ id: item.id })
   }
 })
