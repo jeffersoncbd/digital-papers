@@ -1,7 +1,9 @@
-import React from 'react'
-// import { MdClose, MdModeEdit } from 'react-icons/md'
+import Router from 'next/router'
 
-// import Button from '../../components/Button'
+import Button from '../../components/Button'
+import Close from '../../assets/close.svg'
+import Edit from '../../assets/edit.svg'
+
 import {
   Container,
   Title,
@@ -18,24 +20,22 @@ interface EditInterface {
   edit: () => void
 }
 
-const Show: React.FC<EditInterface> = ({ item }) => (
+const Show: React.FC<EditInterface> = ({ item, edit }) => (
   <Container>
     <Title>{item.title}</Title>
     <DueDate>{item.dueDate && item.dueDate.toString()}</DueDate>
     <Scroll>
       <SupportingText>{item.supportingText || 'Descrições'}</SupportingText>
     </Scroll>
-    <Actions></Actions>
+    <Actions>
+      <Button variant="icon" onClick={() => Router.back()}>
+        <Close width={35} height={35} />
+      </Button>
+      <Button variant="icon" onClick={edit}>
+        <Edit width={35} height={35} />
+      </Button>
+    </Actions>
   </Container>
 )
-
-/* ACTIONS
-  <Button variant="icon" onClick={() => history.goBack()}>
-    <MdClose size={25} />
-  </Button>
-  <Button variant="icon" onClick={() => edit()}>
-    <MdModeEdit size={25} />
-  </Button>
-*/
 
 export default Show
