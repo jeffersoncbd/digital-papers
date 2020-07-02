@@ -1,8 +1,19 @@
-import { Button } from './styles'
-import { ButtonHTMLAttributes } from 'react'
+import { Button, ButtonForIcons } from './styles'
 
-const ButtonWrapper: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
-  props
-) => <Button {...props} />
+import { ButtonInterface } from './types'
+
+const ButtonWrapper: React.FC<ButtonInterface> = (props) => {
+  const variants = {
+    icon: ButtonForIcons
+  }
+
+  const ButtonVariant = variants[props.variant]
+
+  if (ButtonVariant) {
+    return <ButtonVariant {...props} />
+  }
+
+  return <Button {...props} />
+}
 
 export default ButtonWrapper
