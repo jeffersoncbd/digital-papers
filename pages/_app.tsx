@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      if (!api.defaults.headers.Authorization) {
+      if (!api.defaults.headers.Authorization && pageProps.public) {
         api.defaults.headers.Authorization = `Bearer ${token}`
         Router.push('/inbox')
       }

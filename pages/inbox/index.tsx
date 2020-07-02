@@ -58,7 +58,8 @@ const Inbox: React.FC = () => {
           key: item.id,
           primary: item.title,
           secondary: item.dueDate,
-          onClick: () => Router.push(`/inbox/${item.id}`)
+          href: '/items/[id]',
+          as: `/items/${item.id}`
         }))}
       />
     </Container>

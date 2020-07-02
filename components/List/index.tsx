@@ -1,4 +1,4 @@
-import React from 'react'
+import Link from 'next/link'
 
 import { Container } from './styles'
 
@@ -6,7 +6,8 @@ interface Item {
   key: string | number
   primary: string
   secondary?: string
-  onClick?: () => void
+  href?: string
+  as?: string
 }
 
 interface List {
@@ -19,10 +20,12 @@ const ListComponent: React.FC<List> = ({ items }) => {
       {items.length === 0 || (
         <Container>
           {items.map((item) => (
-            <li key={item.key} onClick={item.onClick}>
-              <strong>{item.primary}</strong>
-              <span>{item.secondary}</span>
-            </li>
+            <Link href={item.href} as={item.as} key={item.key}>
+              <li>
+                <strong>{item.primary}</strong>
+                <span>{item.secondary}</span>
+              </li>
+            </Link>
           ))}
         </Container>
       )}
