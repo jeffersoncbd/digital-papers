@@ -1,10 +1,20 @@
 import { useEffect, useState } from 'react'
 import Router, { useRouter } from 'next/router'
+import TextareaAutosize from 'react-autosize-textarea'
 
 import api from '../../services/api'
 
-import ShowItem from '../../components/Item/Show'
-// import EditItem from '../../components/Item/Edit'
+import {
+  Container,
+  InputTitle,
+  InputDueDate,
+  Actions,
+  Scroll
+} from '../../styles/pages/item'
+
+import Button from '../../components/Button'
+import Return from '../../assets/return.svg'
+import Delete from '../../assets/delete.svg'
 
 import { Item } from '../api/items'
 
@@ -17,7 +27,6 @@ const ItemWrapper: React.FC = () => {
     title: '',
     supportingText: ''
   })
-  const [edit, setEdit] = useState(false)
 
   useEffect(() => {
     api
@@ -31,11 +40,57 @@ const ItemWrapper: React.FC = () => {
       })
   }, [router.query.id])
 
-  // <EditItem item={item} cancelEdit={() => setEdit(false)} />
-  return edit ? (
-    <h1>Edit</h1>
-  ) : (
-    <ShowItem item={item} edit={() => setEdit(true)} />
+  function handleInputChange(
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.FormEvent<HTMLTextAreaElement>
+  ) {
+    const { name, value } = event.target as HTMLInputElement
+    setItem({ ...item, [name]: value })
+  }
+
+  async function handleDeleteItem() {
+    await api.delete(`/items/${item.id}`)
+    Router.back()
+  }
+
+  return (
+    <Container>
+      <InputTitle
+        name="title"
+        value={item.title}
+        onChange={handleInputChange}
+        placeholder="Título"
+      />
+      <InputDueDate
+        type="date"
+        name="dueDate"
+        value={item.dueDate && item.dueDate.toString()}
+        onChange={handleInputChange}
+        placeholder="Vencimento"
+      />
+      <Scroll>
+        <TextareaAutosize
+          name="supportingText"
+          value={item.supportingText}
+          onChange={handleInputChange}
+          placeholder="Descrições"
+        />
+      </Scroll>
+      <Actions>
+        <Button
+          variant="icon"
+          onClick={() => {
+            Router.back()
+          }}
+        >
+          <Return width={35} height={35} />
+        </Button>
+        <Button variant="icon" onClick={handleDeleteItem}>
+          <Delete width={35} height={35} />
+        </Button>
+      </Actions>
+    </Container>
   )
 }
 

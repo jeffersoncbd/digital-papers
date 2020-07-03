@@ -12,6 +12,7 @@ export const Container = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
+
   textarea {
     flex: 1;
     width: 100%;
@@ -22,26 +23,29 @@ export const Container = styled.div`
     font-weight: 400;
     color: rgba(0, 0, 0, 0.7);
     resize: none;
+    outline: none;
   }
 `
 
 export const Scroll = styled(PerfectScrollbar)`
   padding-right: 15px;
 `
-
-export const Title = styled.div`
+export const InputTitle = styled.input`
   font-weight: 700;
   border: none;
-  font-size: 2rem;
-  cursor: default;
+  font-size: 40px;
+  line-height: 41px;
+  outline: none;
 `
 
-export const DueDate = styled.div`
+export const InputDueDate = styled.input`
   align-self: flex-end;
   text-align: right;
   border: none;
   margin-bottom: 15px;
-  cursor: default;
+  font-size: 14px;
+  line-height: 14px;
+  outline: none;
 `
 
 export const SupportingText = styled.div`
@@ -57,24 +61,12 @@ export const SupportingText = styled.div`
   cursor: default;
 `
 
-export const InputTitle = styled.input`
-  font-weight: 700;
-  border: none;
-  font-size: 2rem;
-`
-
-export const InputDueDate = styled.input`
-  align-self: flex-end;
-  text-align: right;
-  border: none;
-  margin-bottom: 15px;
-`
-
 export const Actions = styled.div`
   margin: 15px -10px -5px;
   display: flex;
   justify-content: space-between;
   div {
     display: flex;
+    justify-content: space-between;
   }
 `

@@ -17,7 +17,7 @@ export default requestHandlerFactory({
       query: { id }
     } = request
 
-    if (!id) {
+    if (isNaN(Number(id))) {
       response.statusCode = 400
       response.send('')
       return
@@ -26,5 +26,23 @@ export default requestHandlerFactory({
     const item = await prisma.item.findOne({ where: { id: Number(id) } })
 
     response.json(item)
+  },
+
+  DELETE: async (request, response) => {
+    const prisma = new PrismaClient()
+
+    const {
+      query: { id }
+    } = request
+
+    if (isNaN(Number(id))) {
+      response.statusCode = 400
+      response.send('')
+      return
+    }
+
+    await prisma.item.delete({ where: { id: Number(id) } })
+
+    response.send('')
   }
 })
