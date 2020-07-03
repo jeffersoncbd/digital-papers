@@ -6,9 +6,9 @@ export const Input = styled.input`
   height: 40px;
   border-radius: 4px;
   padding: 0 16px;
+  outline: none;
 
   &:focus {
-    outline: none;
     border: 1px solid #000;
   }
 `
