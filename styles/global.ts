@@ -3,11 +3,11 @@ import { createGlobalStyle } from 'styled-components'
 export default createGlobalStyle`
   html,
   body {
-    font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     font-size: 18px;
   }
   * {
+    font-family: 'Roboto', sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;

@@ -17,6 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "next": "9.4.4",
     "react": "16.13.1",
+    "react-autosize-textarea": "^7.0.0",
     "react-dom": "16.13.1",
     "react-perfect-scrollbar": "^1.5.8",
     "react-toastify": "^6.0.6",
