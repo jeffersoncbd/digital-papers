@@ -44,5 +44,24 @@ export default requestHandlerFactory({
     await prisma.item.delete({ where: { id: Number(id) } })
 
     response.send('')
+  },
+
+  PUT: async (request, response) => {
+    const prisma = new PrismaClient()
+
+    const {
+      query: { id },
+      body
+    } = request
+
+    if (isNaN(Number(id))) {
+      response.statusCode = 400
+      response.send('')
+      return
+    }
+
+    await prisma.item.update({ where: { id: Number(id) }, data: { ...body } })
+
+    response.send('')
   }
 })
