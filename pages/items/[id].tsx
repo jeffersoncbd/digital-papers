@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import Router, { useRouter } from 'next/router'
 import TextareaAutosize from 'react-autosize-textarea'
 
-import api from '../../services/api'
+import { getItem, updateItem, deleteItem } from '../../services/localStorage'
 
 import {
   Container,
@@ -34,31 +35,26 @@ const ItemWrapper: React.FC = () => {
   })
 
   useEffect(() => {
+    // RECUPERAR ITEM
     if (router.query.id) {
-      api
-        .get(`/items/${router.query.id}`)
-        .then((response) => {
-          setItem(response.data)
-        })
-        .catch((error) => {
-          console.log(error)
-          Router.back()
-        })
+      getItem(router.query.id as string).then((item) => {
+        setItem(item)
+      })
     }
   }, [router.query.id])
 
   useEffect(() => {
+    // ATUALIZAR ITEM
     if (sync.timer === 0) {
       const timer = setTimeout(() => {
-        api.put(`/items/${router.query.id}`, item).then(() => {
-          console.log('Sincronizado!')
-        })
+        updateItem(item)
       }, 2000)
       setSync({ edited: false, timer })
     }
   }, [sync.timer])
 
   useEffect(() => {
+    // RESETAR INTERVALO
     if (sync.edited) {
       clearTimeout(sync.timer)
       setSync({ edited: false, timer: 0 })
@@ -76,7 +72,7 @@ const ItemWrapper: React.FC = () => {
   }
 
   async function handleDeleteItem() {
-    await api.delete(`/items/${item.id}`)
+    await deleteItem(item.id)
     Router.back()
   }
 

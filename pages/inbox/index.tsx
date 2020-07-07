@@ -1,19 +1,14 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import api from '../../services/api'
+import { getItems, addItem } from '../../services/localStorage'
 
 import List from '../../components/List'
 import Input from '../../components/Input'
 
 import { Container } from '../../styles/pages/inbox'
 
-interface Item {
-  id: number
-  title: string
-  dueDate?: string
-  supportingText: string
-}
+import { Item } from '../api/items'
 
 const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
@@ -23,15 +18,8 @@ const Inbox: React.FC = () => {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
       try {
-        const response = await api.post('/items', { title: newItem })
-        setItems([
-          ...items,
-          {
-            id: Number(response.data.itemId),
-            title: newItem,
-            supportingText: ''
-          }
-        ])
+        const id = await addItem(newItem)
+        setItems([...items, { id, title: newItem }])
         setNewItem('')
       } catch (error) {
         console.log(error)
@@ -41,8 +29,8 @@ const Inbox: React.FC = () => {
   }
 
   useEffect(() => {
-    api.get('/items').then((response) => {
-      setItems(response.data)
+    getItems().then((items) => {
+      setItems(items)
     })
   }, [])
 
@@ -60,7 +48,7 @@ const Inbox: React.FC = () => {
         items={items.map((item) => ({
           key: item.id,
           primary: item.title,
-          secondary: item.dueDate,
+          secondary: item.dueDate ? item.dueDate.toString() : '',
           href: '/items/[id]',
           as: `/items/${item.id}`
         }))}
