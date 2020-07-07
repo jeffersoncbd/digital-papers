@@ -1,4 +1,4 @@
-import { PrismaClient, Item } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { PageConfig } from 'next'
 
 import requestHandlerFactory from '../../../utils/requestHandlerFactory'
@@ -9,7 +9,12 @@ export const config: PageConfig = {
   }
 }
 
-export type { Item }
+export interface Item {
+  id: number
+  title: string
+  dueDate?: Date
+  supportingText?: string
+}
 
 export default requestHandlerFactory({
   GET: async (request, response) => {
