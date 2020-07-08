@@ -60,11 +60,13 @@ export default requestHandlerFactory({
       return
     }
 
-    const dateArray = (body.dueDate as string)
-      .split('-')
-      .map((value, i) => (i === 1 ? Number(value) - 1 : Number(value)))
+    if (body.dueDate) {
+      const dateArray = (body.dueDate as string)
+        .split('-')
+        .map((value, i) => (i === 1 ? Number(value) - 1 : Number(value)))
 
-    body.dueDate = new Date(dateArray[0], dateArray[1], dateArray[2])
+      body.dueDate = new Date(dateArray[0], dateArray[1], dateArray[2])
+    }
 
     await prisma.item.update({ where: { id: Number(id) }, data: { ...body } })
 
