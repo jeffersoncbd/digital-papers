@@ -48,7 +48,9 @@ const Inbox: React.FC = () => {
         items={items.map((item) => ({
           key: item.id,
           primary: item.title,
-          secondary: item.dueDate ? item.dueDate.toString() : '',
+          secondary: item.dueDate
+            ? item.dueDate.split('-').reverse().join('/')
+            : '',
           href: '/items/[id]',
           as: `/items/${item.id}`
         }))}

@@ -7,8 +7,12 @@ export const getItems = async () => {
 
   if (!localItems) {
     const response = await api.get<Item[]>('/items')
-    localStorage.setItem('items', JSON.stringify(response.data))
-    return response.data
+    const items = response.data.map((item) => ({
+      ...item,
+      dueDate: item.dueDate.split('T')[0]
+    }))
+    localStorage.setItem('items', JSON.stringify(items))
+    return items
   }
 
   return JSON.parse(localItems) as Item[]
@@ -22,7 +26,12 @@ export const getItem = async (id: string) => {
   }
   if (!localItem) {
     const response = await api.get<Item>(`/items/${id}`)
-    return response.data
+    const item = response.data
+    item.dueDate = item.dueDate.split('T')[0]
+
+    localStorage.setItem(`item-${id}`, JSON.stringify(item))
+
+    return item
   }
 
   return JSON.parse(localItem) as Item

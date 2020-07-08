@@ -29,9 +29,7 @@ const ItemWrapper: React.FC = () => {
 
   const [item, setItem] = useState<Item>({
     id: 0,
-    dueDate: null,
-    title: '',
-    supportingText: ''
+    title: ''
   })
 
   useEffect(() => {
@@ -87,14 +85,14 @@ const ItemWrapper: React.FC = () => {
       <InputDueDate
         type="date"
         name="dueDate"
-        value={item.dueDate ? item.dueDate.toString() : ''}
+        value={item.dueDate || ''}
         onChange={handleInputChange}
         placeholder="Vencimento"
       />
       <Scroll>
         <TextareaAutosize
           name="supportingText"
-          value={item.supportingText ? item.supportingText : ''}
+          value={item.supportingText || ''}
           onChange={handleInputChange}
           placeholder="Descrições"
         />

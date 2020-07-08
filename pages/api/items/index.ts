@@ -12,7 +12,7 @@ export const config: PageConfig = {
 export interface Item {
   id: number
   title: string
-  dueDate?: Date
+  dueDate?: string
   supportingText?: string
 }
 

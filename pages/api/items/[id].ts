@@ -50,15 +50,21 @@ export default requestHandlerFactory({
     const prisma = new PrismaClient()
 
     const {
-      query: { id },
-      body
+      query: { id }
     } = request
+    const body = request.body
 
     if (isNaN(Number(id))) {
       response.statusCode = 400
       response.send('')
       return
     }
+
+    const dateArray = (body.dueDate as string)
+      .split('-')
+      .map((value, i) => (i === 1 ? Number(value) - 1 : Number(value)))
+
+    body.dueDate = new Date(dateArray[0], dateArray[1], dateArray[2])
 
     await prisma.item.update({ where: { id: Number(id) }, data: { ...body } })
 
