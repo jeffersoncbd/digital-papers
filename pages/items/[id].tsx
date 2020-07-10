@@ -1,9 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react'
+import { useState, useCallback } from 'react'
 import Router, { useRouter } from 'next/router'
 import TextareaAutosize from 'react-autosize-textarea'
+import useSWR from 'swr'
 
-import { getItem, updateItem, deleteItem } from '../../services/localStorage'
+import fetcher from '../../services/fetcher'
+import api from '../../services/api'
 
 import {
   Container,
@@ -22,56 +23,65 @@ import { Item } from '../api/items'
 const ItemWrapper: React.FC = () => {
   const router = useRouter()
 
-  const [sync, setSync] = useState<{ edited: boolean; timer: null | number }>({
-    edited: false,
-    timer: null
-  })
+  const { data: item, mutate: mutateItem } = useSWR<Item>(
+    `/items/${router.query.id}`,
+    fetcher
+  )
 
-  const [item, setItem] = useState<Item>({
-    id: 0,
-    title: ''
-  })
+  const { data: items, mutate: mutateItems } = useSWR<Item[]>('/items', fetcher)
 
-  useEffect(() => {
-    // RECUPERAR ITEM
-    if (router.query.id) {
-      getItem(router.query.id as string).then((item) => {
-        setItem(item)
-      })
-    }
-  }, [router.query.id])
+  const [timer, setTimer] = useState<null | number>(null)
 
-  useEffect(() => {
-    // ATUALIZAR ITEM
-    if (sync.timer === 0) {
-      const timer = setTimeout(() => {
-        updateItem(item)
-      }, 2000)
-      setSync({ edited: false, timer })
-    }
-  }, [sync.timer])
+  const handleNameChange = useCallback(
+    (
+      event:
+        | React.ChangeEvent<HTMLInputElement>
+        | React.FormEvent<HTMLTextAreaElement>
+    ) => {
+      const { name, value } = event.target as HTMLInputElement
+      const updatedItem = { ...item, [name]: value }
 
-  useEffect(() => {
-    // RESETAR INTERVALO
-    if (sync.edited) {
-      clearTimeout(sync.timer)
-      setSync({ edited: false, timer: 0 })
-    }
-  }, [sync.edited])
+      mutateItem(updatedItem, false)
 
-  function handleInputChange(
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.FormEvent<HTMLTextAreaElement>
-  ) {
-    setSync({ ...sync, edited: true })
-    const { name, value } = event.target as HTMLInputElement
-    setItem({ ...item, [name]: value })
-  }
+      if (timer !== null) {
+        clearTimeout(timer)
+        setTimer(null)
+      }
+
+      mutateItems(
+        items.map((listItem) => {
+          if (listItem.id === updatedItem.id) {
+            return updatedItem
+          }
+          return listItem
+        }),
+        false
+      )
+
+      async function update() {
+        await api.put(`/items/${item.id}`, updatedItem)
+        console.log('Atualizado')
+      }
+
+      const timerId = setTimeout(() => update(), 1000)
+      setTimer(timerId)
+    },
+    [item, items, mutateItem, mutateItems, timer]
+  )
 
   async function handleDeleteItem() {
-    await deleteItem(item.id)
+    api.delete(`/items/${item.id}`)
+
+    mutateItems(
+      items.filter((listItem) => listItem.id !== item.id),
+      false
+    )
+
     Router.back()
+  }
+
+  if (!item) {
+    return <Container>Carregando...</Container>
   }
 
   return (
@@ -79,21 +89,21 @@ const ItemWrapper: React.FC = () => {
       <InputTitle
         name="title"
         value={item.title}
-        onChange={handleInputChange}
+        onChange={handleNameChange}
         placeholder="Título"
       />
       <InputDueDate
         type="date"
         name="dueDate"
-        value={item.dueDate || ''}
-        onChange={handleInputChange}
+        value={item.dueDate ? item.dueDate.split('T')[0] : ''}
+        onChange={handleNameChange}
         placeholder="Vencimento"
       />
       <Scroll>
         <TextareaAutosize
           name="supportingText"
           value={item.supportingText || ''}
-          onChange={handleInputChange}
+          onChange={handleNameChange}
           placeholder="Descrições"
         />
       </Scroll>

@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useState } from 'react'
+import useSWR, { mutate } from 'swr'
 
-import { getItems, addItem } from '../../services/localStorage'
+import fetcher from '../../services/fetcher'
+import api from '../../services/api'
 
 import List from '../../components/List'
 import Input from '../../components/Input'
@@ -12,27 +13,22 @@ import { Item } from '../api/items'
 
 const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
-  const [items, setItems] = useState<Item[]>([])
+
+  const { data: items } = useSWR<Item[]>('/items', fetcher)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
-      try {
-        const id = await addItem(newItem)
-        setItems([...items, { id, title: newItem }])
-        setNewItem('')
-      } catch (error) {
-        console.log(error)
-        toast.error('Erro ao tentar adicionar item')
-      }
+      const response = await api.post('/items', { title: newItem })
+      const id = response.data.id
+
+      items.push({ id, title: newItem })
+
+      mutate('/api/items', items, false)
+      mutate(`/api/items/${id}`, { id, title: newItem })
+      setNewItem('')
     }
   }
-
-  useEffect(() => {
-    getItems().then((items) => {
-      setItems(items)
-    })
-  }, [])
 
   return (
     <Container>
@@ -44,17 +40,20 @@ const Inbox: React.FC = () => {
           onChange={(event) => setNewItem(event.target.value)}
         />
       </form>
-      <List
-        items={items.map((item) => ({
-          key: item.id,
-          primary: item.title,
-          secondary: item.dueDate
-            ? item.dueDate.split('-').reverse().join('/')
-            : '',
-          href: '/items/[id]',
-          as: `/items/${item.id}`
-        }))}
-      />
+
+      {items && (
+        <List
+          items={items.map((item) => ({
+            key: item.id,
+            primary: item.title,
+            secondary: item.dueDate
+              ? item.dueDate.split('T')[0].split('-').reverse().join('/')
+              : '',
+            href: '/items/[id]',
+            as: `/items/${item.id}`
+          }))}
+        />
+      )}
     </Container>
   )
 }

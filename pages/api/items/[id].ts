@@ -62,6 +62,7 @@ export default requestHandlerFactory({
 
     if (body.dueDate) {
       const dateArray = (body.dueDate as string)
+        .split('T')[0]
         .split('-')
         .map((value, i) => (i === 1 ? Number(value) - 1 : Number(value)))
 
