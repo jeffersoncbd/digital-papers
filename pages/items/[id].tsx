@@ -72,7 +72,7 @@ const ItemWrapper: React.FC = () => {
   async function handleDeleteItem() {
     api.delete(`/items/${item.id}`)
 
-    mutateItems(
+    await mutateItems(
       items.filter((listItem) => listItem.id !== item.id),
       false
     )
