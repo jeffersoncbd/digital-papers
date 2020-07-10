@@ -14,6 +14,7 @@ export const Container = styled.div`
   flex-direction: column;
 
   textarea {
+    font-family: 'Roboto Mono', monospace;
     flex: 1;
     width: 100%;
     border: none;
