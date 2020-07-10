@@ -9,7 +9,7 @@ export const Container = styled.div`
   margin: 20px auto 0;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
 
@@ -17,11 +17,10 @@ export const Container = styled.div`
     flex: 1;
     width: 100%;
     border: none;
-    font-family: 'Roboto';
-    font-size: 0.875rem;
+    font-size: 1rem;
     line-height: 1.25rem;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.8);
     resize: none;
     outline: none;
   }
@@ -33,40 +32,23 @@ export const Scroll = styled(PerfectScrollbar)`
 export const InputTitle = styled.input`
   font-weight: 700;
   border: none;
-  font-size: 40px;
-  line-height: 41px;
+  font-size: 1.6rem;
   outline: none;
+  margin-bottom: 16px;
 `
 
 export const InputDueDate = styled.input`
   align-self: flex-end;
   text-align: right;
   border: none;
-  margin-bottom: 15px;
-  font-size: 14px;
-  line-height: 14px;
+  font-size: 1rem;
+  height: 1.5rem;
+  margin-bottom: 16px;
   outline: none;
 `
 
-export const SupportingText = styled.div`
-  flex: 1;
-  width: 100%;
-  border: none;
-  font-family: 'Roboto';
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.7);
-  resize: none;
-  cursor: default;
-`
-
 export const Actions = styled.div`
-  margin: 15px -10px -5px;
+  margin-top: 16px;
   display: flex;
   justify-content: space-between;
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
 `

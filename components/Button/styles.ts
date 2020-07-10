@@ -18,7 +18,7 @@ export const Button = styled.button`
 `
 
 export const ButtonForIcons = styled.button`
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,6 +30,6 @@ export const ButtonForIcons = styled.button`
   padding: 5px;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.15);
   }
 `
