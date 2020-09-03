@@ -9,13 +9,6 @@ export const config: PageConfig = {
   }
 }
 
-export interface Item {
-  id: number
-  title: string
-  dueDate?: string
-  supportingText?: string
-}
-
 export default requestHandlerFactory({
   GET: async (request, response) => {
     const prisma = new PrismaClient()
@@ -28,8 +21,10 @@ export default requestHandlerFactory({
   POST: async (request, response) => {
     const prisma = new PrismaClient()
 
+    const { id, title } = request.body
+
     const item = await prisma.item.create({
-      data: { title: request.body.title as string }
+      data: { id, title }
     })
 
     response.json({ id: item.id })

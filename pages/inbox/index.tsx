@@ -9,23 +9,24 @@ import Input from '../../components/Input'
 
 import { Container } from '../../styles/pages/inbox'
 
-import { Item } from '../api/items'
+import { ItemEntity } from '../../abstractions/Entities/Item'
 
 const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
 
-  const { data: items } = useSWR<Item[]>('/items', fetcher)
+  const { data: items } = useSWR<ItemEntity[]>('/items', fetcher)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
-      const response = await api.post('/items', { title: newItem })
-      const id = response.data.id
+      const item = new ItemEntity({ title: newItem })
+      console.log(item)
+      api.post('/items', item)
 
-      items.push({ id, title: newItem })
+      items.push(item)
 
       mutate('/api/items', items, false)
-      mutate(`/api/items/${id}`, { id, title: newItem })
+      mutate(`/api/items/${item.id}`, item)
       setNewItem('')
     }
   }

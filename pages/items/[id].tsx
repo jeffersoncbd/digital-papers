@@ -5,6 +5,7 @@ import useSWR from 'swr'
 
 import fetcher from '../../services/fetcher'
 import api from '../../services/api'
+import { ItemEntity } from '../../abstractions/Entities/Item'
 
 import {
   Container,
@@ -18,21 +19,22 @@ import Button from '../../components/Button'
 import Return from '../../assets/return.svg'
 import Delete from '../../assets/delete.svg'
 
-import { Item } from '../api/items'
-
 const ItemWrapper: React.FC = () => {
   const router = useRouter()
 
-  const { data: item, mutate: mutateItem } = useSWR<Item>(
+  const { data: item, mutate: mutateItem } = useSWR<ItemEntity>(
     `/items/${router.query.id}`,
     fetcher
   )
 
-  const { data: items, mutate: mutateItems } = useSWR<Item[]>('/items', fetcher)
+  const { data: items, mutate: mutateItems } = useSWR<ItemEntity[]>(
+    '/items',
+    fetcher
+  )
 
   const [timer, setTimer] = useState<null | number>(null)
 
-  const handleNameChange = useCallback(
+  const handleInputChange = useCallback(
     (
       event:
         | React.ChangeEvent<HTMLInputElement>
@@ -89,21 +91,21 @@ const ItemWrapper: React.FC = () => {
       <InputTitle
         name="title"
         value={item.title}
-        onChange={handleNameChange}
+        onChange={handleInputChange}
         placeholder="Título"
       />
       <InputDueDate
         type="date"
         name="dueDate"
         value={item.dueDate ? item.dueDate.split('T')[0] : ''}
-        onChange={handleNameChange}
+        onChange={handleInputChange}
         placeholder="Vencimento"
       />
       <Scroll>
         <TextareaAutosize
           name="supportingText"
           value={item.supportingText || ''}
-          onChange={handleNameChange}
+          onChange={handleInputChange}
           placeholder="Descrições"
         />
       </Scroll>

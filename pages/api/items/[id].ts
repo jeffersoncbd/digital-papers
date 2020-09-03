@@ -17,13 +17,13 @@ export default requestHandlerFactory({
       query: { id }
     } = request
 
-    if (isNaN(Number(id))) {
+    const item = await prisma.item.findOne({ where: { id: id as string } })
+
+    if (item === null) {
       response.statusCode = 400
       response.send('')
       return
     }
-
-    const item = await prisma.item.findOne({ where: { id: Number(id) } })
 
     response.json(item)
   },
@@ -35,13 +35,7 @@ export default requestHandlerFactory({
       query: { id }
     } = request
 
-    if (isNaN(Number(id))) {
-      response.statusCode = 400
-      response.send('')
-      return
-    }
-
-    await prisma.item.delete({ where: { id: Number(id) } })
+    await prisma.item.delete({ where: { id: id as string } })
 
     response.send('')
   },
@@ -54,12 +48,6 @@ export default requestHandlerFactory({
     } = request
     const body = request.body
 
-    if (isNaN(Number(id))) {
-      response.statusCode = 400
-      response.send('')
-      return
-    }
-
     if (body.dueDate) {
       const dateArray = (body.dueDate as string)
         .split('T')[0]
@@ -69,7 +57,7 @@ export default requestHandlerFactory({
       body.dueDate = new Date(dateArray[0], dateArray[1], dateArray[2])
     }
 
-    await prisma.item.update({ where: { id: Number(id) }, data: { ...body } })
+    await prisma.item.update({ where: { id: id as string }, data: { ...body } })
 
     response.send('')
   }
