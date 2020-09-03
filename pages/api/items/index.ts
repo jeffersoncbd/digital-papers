@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 import { PageConfig } from 'next'
 
 import requestHandlerFactory from '../../../utils/requestHandlerFactory'
+import { prisma } from '../../../database'
 
 export const config: PageConfig = {
   api: {
@@ -11,8 +11,6 @@ export const config: PageConfig = {
 
 export default requestHandlerFactory({
   GET: async (request, response) => {
-    const prisma = new PrismaClient()
-
     let local = request.query.local as undefined | string
     local = local || null
 
@@ -22,8 +20,6 @@ export default requestHandlerFactory({
   },
 
   POST: async (request, response) => {
-    const prisma = new PrismaClient()
-
     const { id, title } = request.body
 
     const item = await prisma.item.create({

@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import { PageConfig } from 'next'
 
 import requestHandlerFactory from '../../utils/requestHandlerFactory'
+import { prisma } from '../../database'
 
 export const config: PageConfig = {
   api: {
@@ -12,7 +12,6 @@ export const config: PageConfig = {
 
 export default requestHandlerFactory({
   POST: async (request, response) => {
-    const prisma = new PrismaClient()
     const configuration = await prisma.configurations.findOne({
       where: { id: 1 }
     })
@@ -34,6 +33,6 @@ export default requestHandlerFactory({
 
     const token = jwt.sign('Digital Papers', process.env.APP_SECRET)
     response.statusCode = 200
-    response.json({ token, feedback: 'Logado com sucesso!' })
+    response.json({ token, feedback: 'Autenticado com sucesso!' })
   }
 })

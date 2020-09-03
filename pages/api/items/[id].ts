@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 import { PageConfig } from 'next'
 
 import requestHandlerFactory from '../../../utils/requestHandlerFactory'
+import { prisma } from '../../../database'
 
 export const config: PageConfig = {
   api: {
@@ -11,8 +11,6 @@ export const config: PageConfig = {
 
 export default requestHandlerFactory({
   GET: async (request, response) => {
-    const prisma = new PrismaClient()
-
     const {
       query: { id }
     } = request
@@ -29,8 +27,6 @@ export default requestHandlerFactory({
   },
 
   DELETE: async (request, response) => {
-    const prisma = new PrismaClient()
-
     const {
       query: { id }
     } = request
@@ -41,8 +37,6 @@ export default requestHandlerFactory({
   },
 
   PUT: async (request, response) => {
-    const prisma = new PrismaClient()
-
     const {
       query: { id }
     } = request
