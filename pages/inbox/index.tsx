@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useSWR, { mutate } from 'swr'
 
 import fetcher from '../../services/fetcher'
@@ -15,6 +15,14 @@ const Inbox: React.FC = () => {
   const [newItem, setNewItem] = useState('')
 
   const { data: items } = useSWR<ItemEntity[]>('/items', fetcher)
+
+  useEffect(() => {
+    if (items) {
+      items.forEach((item) => {
+        mutate(`/items/${item.id}`, item)
+      })
+    }
+  }, [items])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
