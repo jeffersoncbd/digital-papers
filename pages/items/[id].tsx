@@ -81,29 +81,25 @@ const ItemWrapper: React.FC = () => {
     Router.back()
   }
 
-  if (!item) {
-    return <Container>Carregando...</Container>
-  }
-
   return (
     <Container>
       <InputTitle
         name="title"
-        value={item.title}
+        value={item ? item.title : ''}
         onChange={handleInputChange}
         placeholder="Título"
       />
       <InputDueDate
         type="date"
         name="dueDate"
-        value={item.dueDate ? item.dueDate.split('T')[0] : ''}
+        value={item && item.dueDate ? item.dueDate.split('T')[0] : ''}
         onChange={handleInputChange}
         placeholder="Vencimento"
       />
       <Scroll>
         <TextareaAutosize
           name="supportingText"
-          value={item.supportingText || ''}
+          value={item && item.supportingText ? item.supportingText : ''}
           onChange={handleInputChange}
           placeholder="Descrições"
         />
