@@ -13,7 +13,10 @@ export default requestHandlerFactory({
   GET: async (request, response) => {
     const prisma = new PrismaClient()
 
-    const items = await prisma.item.findMany()
+    let local = request.query.local as undefined | string
+    local = local || null
+
+    const items = await prisma.item.findMany({ where: { local } })
 
     response.json(items)
   },
