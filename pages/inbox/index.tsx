@@ -20,13 +20,12 @@ const Inbox: React.FC = () => {
     event.preventDefault()
     if (!(newItem === '' || newItem === undefined)) {
       const item = new ItemEntity({ title: newItem })
-      console.log(item)
-      api.post('/items', item)
 
       items.push(item)
+      mutate('/items', items, false)
+      mutate(`/items/${item.id}`, item)
 
-      mutate('/api/items', items, false)
-      mutate(`/api/items/${item.id}`, item)
+      api.post('/items', item)
       setNewItem('')
     }
   }

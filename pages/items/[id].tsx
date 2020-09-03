@@ -62,7 +62,6 @@ const ItemWrapper: React.FC = () => {
 
       async function update() {
         await api.put(`/items/${item.id}`, updatedItem)
-        console.log('Atualizado')
       }
 
       const timerId = setTimeout(() => update(), 1000)
@@ -74,7 +73,7 @@ const ItemWrapper: React.FC = () => {
   async function handleDeleteItem() {
     api.delete(`/items/${item.id}`)
 
-    await mutateItems(
+    mutateItems(
       items.filter((listItem) => listItem.id !== item.id),
       false
     )
