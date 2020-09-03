@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import Router, { useRouter } from 'next/router'
 import TextareaAutosize from 'react-autosize-textarea'
 import useSWR from 'swr'
+import PuffLoader from 'react-spinners/PuffLoader'
 
 import fetcher from '../../services/fetcher'
 import api from '../../services/api'
@@ -33,6 +34,7 @@ const ItemWrapper: React.FC = () => {
   )
 
   const [timer, setTimer] = useState<null | number>(null)
+  const [sync, setSync] = useState(false)
 
   const handleInputChange = useCallback(
     (
@@ -40,6 +42,7 @@ const ItemWrapper: React.FC = () => {
         | React.ChangeEvent<HTMLInputElement>
         | React.FormEvent<HTMLTextAreaElement>
     ) => {
+      setSync(true)
       const { name, value } = event.target as HTMLInputElement
       const updatedItem = { ...item, [name]: value }
 
@@ -62,6 +65,7 @@ const ItemWrapper: React.FC = () => {
 
       async function update() {
         await api.put(`/items/${item.id}`, updatedItem)
+        setSync(false)
       }
 
       const timerId = setTimeout(() => update(), 1000)
@@ -113,6 +117,7 @@ const ItemWrapper: React.FC = () => {
         >
           <Return width={35} height={35} />
         </Button>
+        {sync && <PuffLoader size={30} color="black" />}
         <Button variant="icon" onClick={handleDeleteItem}>
           <Delete width={35} height={35} />
         </Button>
