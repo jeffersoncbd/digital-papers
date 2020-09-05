@@ -12,7 +12,8 @@ import api from '../services/api'
 import Container from '../components/Container'
 import Navbar from '../components/Navbar'
 
-import GlobalStyles from '../styles/global'
+import GlobalStyles, { ScrollContainer } from '../styles/global'
+import ScrollBar from 'react-perfect-scrollbar'
 
 function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -38,12 +39,14 @@ function App({ Component, pageProps }: AppProps) {
       {pageProps.public ? (
         <Component {...pageProps} />
       ) : (
-        <>
-          <Navbar />
-          <Container>
-            <Component {...pageProps} />
-          </Container>
-        </>
+        <ScrollBar>
+          <ScrollContainer>
+            <Navbar />
+            <Container>
+              <Component {...pageProps} />
+            </Container>
+          </ScrollContainer>
+        </ScrollBar>
       )}
 
       <ToastContainer autoClose={2500} />

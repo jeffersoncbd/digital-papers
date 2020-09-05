@@ -1,10 +1,15 @@
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
+
+export const ScrollContainer = styled.div`
+  height: 100vh;
+`
 
 export default createGlobalStyle`
   html,
-  body {
+  body, #__next {
     line-height: 1.6;
     font-size: 18px;
+    height: 100vh;
   }
   * {
     font-family: 'Roboto', sans-serif;
