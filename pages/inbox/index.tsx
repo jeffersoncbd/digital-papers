@@ -7,7 +7,10 @@ import api from '../../services/api'
 import List from '../../components/List'
 import Input from '../../components/Input'
 
-import { Container } from '../../styles/pages/inbox'
+import Process from '../../assets/process.svg'
+import ProcessOff from '../../assets/process-off.svg'
+
+import { Container, InboxHeader } from '../../styles/pages/inbox'
 
 import { ItemEntity } from '../../abstractions/Entities/Item'
 
@@ -40,7 +43,16 @@ const Inbox: React.FC = () => {
 
   return (
     <Container>
-      <h1>Caixa de entrada</h1>
+      <InboxHeader>
+        <h1>Caixa de entrada</h1>
+        {items && items.length > 0 ? (
+          <button>
+            <Process height={40} width={40} />
+          </button>
+        ) : (
+          <ProcessOff height={40} width={40} />
+        )}
+      </InboxHeader>
       <form onSubmit={handleSubmit}>
         <Input
           placeholder="Adicionar novo"
